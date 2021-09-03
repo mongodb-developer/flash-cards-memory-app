@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public protocol Card {
+public protocol CardEntity {
     var title: String { get }
     var description: String { get }
     var icon: String { get }

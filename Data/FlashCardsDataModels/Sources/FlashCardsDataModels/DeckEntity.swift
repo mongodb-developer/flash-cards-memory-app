@@ -1,9 +1,9 @@
 import Foundation
-public protocol Deck {
+public protocol DeckEntity {
     var title: String { get }
     var description: String { get }
     var icon: String { get }
     var creationDate: Date { get }
     var lastUpdateDate: Date { get }
-    var cards: [Card] { get }
+    var cards: [CardEntity] { get }
 }

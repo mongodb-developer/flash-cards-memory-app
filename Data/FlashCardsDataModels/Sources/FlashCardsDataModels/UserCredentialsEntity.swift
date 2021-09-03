@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol UserCredentials {
+public protocol UserCredentialsEntity {
     var user: String { get }
     var password: String { get }
 }
