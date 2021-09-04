@@ -1,0 +1,30 @@
+{
+    "decks": [
+        {
+            "id": 1,
+            "title": "Japanese",
+            "description": "A Deck to learn Japanese Vocabulary",
+            "icon": "",
+            "created": "",
+            "updated": "",
+            "cards": [
+                {
+                    "id": 1,
+                    "title": "",
+                    "description": "",
+                    "icon": "",
+                    "created": "",
+                    "updated": ""
+                },
+                {
+                    "id": 2,
+                    "title": "",
+                    "description": "",
+                    "icon": "",
+                    "created": "",
+                    "updated": ""
+                }
+            ] 
+        }    
+    ]
+}
