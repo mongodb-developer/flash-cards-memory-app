@@ -1,3 +1,4 @@
 # FlashCardsRepositoriesImpl
 
-A description of this package.
+Naive Implementation of `Data/FlashCardsRepositories` protocols
+

@@ -1,3 +1,5 @@
 # FlashCardsRepositories
 
-A description of this package.
+Defines the Repositories needed for this project as Protocols
+
+This needs a concrete implementation

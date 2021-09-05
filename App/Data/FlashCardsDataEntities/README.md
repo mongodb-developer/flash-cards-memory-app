@@ -1,3 +1,3 @@
 # FlashCardsDataModels
 
-A description of this package.
+Entities used in this project in the Data Layer

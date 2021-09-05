@@ -14,14 +14,17 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(name: "FlashCardsRepositories", path: "../../Data/FlashCardsRepositories"),
-        .package(name: "FlashCardsDataEntitiesImpl", path: "../../FlashCardsData/FlashCardsDataEntitiesImpl")
+        .package(name: "FlashCardsDataEntitiesImpl", path: "../../FlashCardsData/FlashCardsDataEntitiesImpl"),
+        .package(name: "FlashCardsPersistence", path: "../../FlashCardsData/FlashCardsPersistence"),
+        .package(name: "FlashCardsNetwork", path: "../../FlashCardsData/FlashCardsNetwork")
+
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "FlashCardsRepositoriesImpl",
-            dependencies: ["FlashCardsRepositories", "FlashCardsDataEntitiesImpl"]),
+            dependencies: ["FlashCardsRepositories", "FlashCardsDataEntitiesImpl", "FlashCardsPersistence", "FlashCardsNetwork"]),
         .testTarget(
             name: "FlashCardsRepositoriesImplTests",
             dependencies: ["FlashCardsRepositoriesImpl", "FlashCardsRepositories"]),
