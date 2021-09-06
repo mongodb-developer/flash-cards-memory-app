@@ -8,7 +8,7 @@ public protocol UseCase {
     
     func checkBusinessRules() -> Bool
     
-    func execute(data: inParameterDataType?, completion: (_ result: UseCaseResult<resultDataType>) -> Void)
+    func execute(data: inParameterDataType?, completion: @escaping (_ result: UseCaseResult<resultDataType>) -> Void)
 }
 
 public extension UseCase {

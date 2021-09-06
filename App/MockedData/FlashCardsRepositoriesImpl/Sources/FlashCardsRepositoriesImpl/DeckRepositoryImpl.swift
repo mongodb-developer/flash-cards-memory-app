@@ -34,17 +34,21 @@ public struct DeckRepositoryImpl: DeckRepository {
         }
     }
     
-    public func deleteDeck(_ deck: DeckEntity) {
+    public func deleteDeck(_ deck: DeckEntity, completion: @escaping (RepositoryResponse<Bool>) -> Void) {
         
     }
     
-    public func updateDeck(_ deck: DeckEntity) {
+    public func deleteAllDecks(completion: @escaping (RepositoryResponse<Bool>) -> Void) {
         
     }
     
-    public func addDeck(_ deck: DeckEntity) {
+    
+    public func updateDeck(_ deck: DeckEntity, completion: @escaping (RepositoryResponse<DeckEntity>) -> Void) {
         
     }
     
+    public func addDeck(_ deck: DeckEntity, completion: @escaping (RepositoryResponse<Bool>) -> Void) {
+        
+    }
     
 }

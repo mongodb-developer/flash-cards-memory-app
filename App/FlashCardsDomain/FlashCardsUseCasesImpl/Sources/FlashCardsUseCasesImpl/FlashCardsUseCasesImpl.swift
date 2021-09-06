@@ -3,42 +3,22 @@ import FlashCardsUseCases
 import FlashCardsModels
 import FlashCardsRepositories
 import FlashCardsRepositoriesImpl
+import FlashCardsDataEntities
 
 public struct GetAllDecksUseCaseMock: GetAllDecksUseCase {
     public var businessRules: [BusinessRule]? = nil
-   
-    public init() {
-        
+    private let decksRepository: DeckRepository
+    
+    public init(decksRepository: DeckRepository = DeckRepositoryImpl()) {
+        self.decksRepository = decksRepository
     }
     
-    public func execute(data: ()? = nil, completion: (UseCaseResult<Array<Deck>>) -> Void) {
-        let returnValue = [
-            FlashCardDeck(title: "Deck 1",
-                          description: "Deck 1 desc",
-                          icon: "arrow.down.square",
-                          creationDate: Date(),
-                          lastUpdateDate: Date(),
-                          cards: [FlashCard(title: "Good Morning", description: "おはようございます", icon: "", creationDate: Date(), lastUpdateDate: Date())]),
-            FlashCardDeck(title: "Deck 2",
-                          description: "Deck 2 desc",
-                          icon: "apps.ipad.landscape",
-                          creationDate: Date(),
-                          lastUpdateDate: Date(),
-                          cards: []),
-            FlashCardDeck(title: "Deck 3",
-                          description: "Deck 3 desc",
-                          icon: "archivebox.fill",
-                          creationDate: Date(),
-                          lastUpdateDate: Date(),
-                          cards: []),
-            FlashCardDeck(title: "Deck 4",
-                          description: "Deck 4 desc",
-                          icon: "arrow.down.forward.circle",
-                          creationDate: Date(),
-                          lastUpdateDate: Date(),
-                          cards: [])
-        ]
+    public func execute(data: ()? = nil, completion: @escaping (UseCaseResult<Array<Deck>>) -> Void) {
+        decksRepository.getAllDecks { (response: RepositoryResponse<[DeckEntity]>) in
+            let decks: [Deck] = DeckEntityToDeckMapper.map(decks: response.data)
+            
+            completion(UseCaseResult(value: decks, code: .Success))
+        }
         
-        completion(UseCaseResult(value: returnValue, code: .Success))
     }
 }

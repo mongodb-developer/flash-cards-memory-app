@@ -10,7 +10,7 @@ import FlashCardsDataEntities
 
 public struct CardEntityImpl: CardEntity {
     public let title: String
-    public let description: String
+    public let backText: String
     public let icon: String
     public let creationDate: Date
     public let lastUpdateDate: Date
@@ -21,7 +21,7 @@ public struct CardEntityImpl: CardEntity {
                 creationDate: Date,
                 lastUpdateDate: Date) {
         self.title = title
-        self.description = description
+        self.backText = description
         self.icon = icon
         self.creationDate = creationDate
         self.lastUpdateDate = lastUpdateDate

@@ -10,9 +10,10 @@ import FlashCardsNetwork
 import FlashCardsDataEntities
 import FlashCardsDataEntitiesImpl
 
-struct DeckNetworkEntityToDeckEntityMapper {
-    static func map(networkEntities: [DeckNetworkEntity]) -> [DeckEntityImpl] {
-        var returnEntities: [DeckEntityImpl] = []
+
+struct CardNetworkEntityToCardEntityMapper {
+    static func map(networkEntities: [CardNetworkEntity]) -> [CardEntityImpl] {
+        var returnEntities: [CardEntityImpl] = []
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yy"
@@ -21,14 +22,11 @@ struct DeckNetworkEntityToDeckEntityMapper {
             let creationDate = dateFormatter.date(from: networkEntity.created) ?? Date()
             let lastUpdateDate = dateFormatter.date(from: networkEntity.updated) ?? Date()
 
-            let cards = CardNetworkEntityToCardEntityMapper.map(networkEntities: networkEntity.cards)
-            
-            let entity = DeckEntityImpl(title: networkEntity.title,
+            let entity = CardEntityImpl(title: networkEntity.title,
                                         description: networkEntity.description,
                                         icon: networkEntity.icon,
                                         creationDate: creationDate,
-                                        lastUpdateDate: lastUpdateDate,
-                                        cards: cards)
+                                        lastUpdateDate: lastUpdateDate)
             returnEntities.append(entity)
         }
         
