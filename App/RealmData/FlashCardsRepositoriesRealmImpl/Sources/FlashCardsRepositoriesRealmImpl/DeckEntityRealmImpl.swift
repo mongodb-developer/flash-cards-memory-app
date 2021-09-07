@@ -5,6 +5,10 @@ import RealmSwift
 
 public class DeckEntityRealmImpl: Object, DeckEntity {
     
+    @Persisted(primaryKey: true) var _id: ObjectId
+    
+    @Persisted var _partition: String = "partitionKey"
+
     @Persisted
     public var title: String
     
