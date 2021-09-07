@@ -40,4 +40,14 @@ public class CardEntityRealmImpl: Object, CardEntity {
         self.creationDate = creationDate
         self.lastUpdateDate = lastUpdateDate
     }
+    
+    public convenience init(cardEntity: CardEntity) {
+        self.init()
+        
+        self.title = cardEntity.title
+        self.backText = cardEntity.backText
+        self.icon = cardEntity.icon
+        self.creationDate = cardEntity.creationDate
+        self.lastUpdateDate = cardEntity.lastUpdateDate
+    }
 }

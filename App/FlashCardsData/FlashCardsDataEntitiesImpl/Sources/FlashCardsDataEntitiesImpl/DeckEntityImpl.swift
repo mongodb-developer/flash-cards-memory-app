@@ -14,7 +14,7 @@ public struct DeckEntityImpl: DeckEntity {
                 icon: String,
                 creationDate: Date,
                 lastUpdateDate: Date,
-                cards: [CardEntityImpl]) {
+                cards: [CardEntity]) {
         self.title = title
         self.deckDescription = description
         self.icon = icon

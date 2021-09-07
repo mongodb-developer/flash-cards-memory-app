@@ -51,4 +51,7 @@ public struct DeckRepositoryImpl: DeckRepository {
         
     }
     
+    public func addCard(_ card: CardEntity, deck: DeckEntity, completion: @escaping (RepositoryResponse<Bool>) -> Void) {
+        
+    }
 }

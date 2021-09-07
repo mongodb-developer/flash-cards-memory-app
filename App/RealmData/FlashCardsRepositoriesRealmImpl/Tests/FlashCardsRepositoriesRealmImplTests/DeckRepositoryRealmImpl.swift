@@ -14,7 +14,7 @@ final class DeckRepositoryRealmImplTests: XCTestCase {
         let repository = DeckRepositoryRealmImpl(realm: nil)
         
         // when
-        repository.getAllDecks { (response: RepositoryResponse<[DeckEntity]>) in
+        repository.getAllDecks { (response: RepositoryResponse<[DeckEntityRealmImpl]>) in
             
             // then
             XCTAssertNotNil(response.data)
@@ -37,7 +37,7 @@ final class DeckRepositoryRealmImplTests: XCTestCase {
         clearRealm() // empty Realm
         
         // when
-        repository.getAllDecks { (response: RepositoryResponse<[DeckEntity]>) in
+        repository.getAllDecks { (response: RepositoryResponse<[DeckEntityRealmImpl]>) in
             
             // then
             XCTAssertNotNil(response.data)
@@ -60,7 +60,7 @@ final class DeckRepositoryRealmImplTests: XCTestCase {
         insertDecks(numOfDecks: 10)
         
         // when
-        repository.getAllDecks { (response: RepositoryResponse<[DeckEntity]>) in
+        repository.getAllDecks { (response: RepositoryResponse<[DeckEntityRealmImpl]>) in
             
             // then
             XCTAssertNotNil(response.data)
@@ -89,6 +89,64 @@ final class DeckRepositoryRealmImplTests: XCTestCase {
             end = true
         }
         
+        
+        while !end {
+            // wait
+        }
+    }
+    
+    func test_Given_EmptyRealm_When_InsertingADeckWithCards_Then_DeckIsInsertedWithThoseCards() throws {
+        // given
+        var end = false
+        let repository = DeckRepositoryRealmImpl(realm: initTestRealm()!)
+        
+        let deck = DeckEntityRealmImpl(title: "A Deck", description: "Some desc", icon: "icon here", creationDate: Date(), lastUpdateDate: Date(), cards: [])
+        
+        let card = CardEntityRealmImpl(title: "Card 1", description: "Desc Card 1", icon: "Icon 1", creationDate: Date(), lastUpdateDate: Date())
+        repository.addCard(card, deck: deck) { (response: RepositoryResponse<Bool>) in
+            XCTAssertTrue(response.data)
+            XCTAssertEqual(1, deck.cards.count)
+            XCTAssertEqual(1, deck.realmCards.count)
+            XCTAssertEqual("Card 1", deck.realmCards[0].title)
+            
+            end = true
+        }
+        
+        while !end {
+            // wait
+        }
+    }
+    
+    func test_Given_RealmWith10Decks_When_DeleteOneDeck_Then_9DecksAreLeft() throws {
+        
+        var end = false
+
+        // given
+        let repository = DeckRepositoryRealmImpl(realm: initTestRealm()!)
+        clearRealm()
+        insertDecks(numOfDecks: 10)
+        
+        repository.getAllDecks { (response: RepositoryResponse<[DeckEntityRealmImpl]>) in
+            
+            XCTAssertNotNil(response.data)
+            XCTAssertEqual(10, response.data.count)
+            
+            // when
+            
+            repository.deleteDeck(response.data[0]) { (deleteResponse: RepositoryResponse<Bool>) in
+                XCTAssertTrue(deleteResponse.data)
+            
+                // then
+
+                repository.getAllDecks { (response: RepositoryResponse<[DeckEntityRealmImpl]>) in
+                    
+                    XCTAssertNotNil(response.data)
+                    XCTAssertEqual(9, response.data.count)
+                
+                    end = true
+                }
+            }
+        }
         
         while !end {
             // wait
@@ -144,4 +202,14 @@ extension DeckRepositoryRealmImplTests {
             insertDeck(title: "Deck Title \(i)", description: "Deck Description \(i)", icon: "Icon \(i)")
         }
     }
+    
+//    private func insertCardInDeck(deck: DeckRepositoryRealmImpl, title: String, description: String, icon: String) {
+//        let repository = DeckRepositoryRealmImpl(realm: initTestRealm()!)
+//
+//        let card = CardEntityRealmImpl(title: "Card 1", description: "Desc Card 1", icon: "Icon 1", creationDate: Date(), lastUpdateDate: Date())
+//        repository.addCard(card, deck: deck as! DeckEntity) { (response: RepositoryResponse<Bool>) in
+//            // ignored, hope insert is OK, otherwise there are tests to catch it
+//
+//        }
+//    }
 }
