@@ -14,7 +14,6 @@ public struct DeckRepositoryImpl: DeckRepository {
     public func getAllDecks(completion: @escaping (RepositoryResponse<[DeckEntity]>) -> Void) {
         
         // check local cache first
-        
         FlashCardsPersistence.getAllDecks { (decks: [DeckEntity]) in
             
             // if something is found in the cache, return it

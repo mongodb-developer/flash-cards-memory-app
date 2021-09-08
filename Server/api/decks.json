@@ -2,7 +2,7 @@
     "decks": [
         {
             "id": 1,
-            "title": "Japanese",
+            "title": "Japanese Deck",
             "description": "A Deck to learn Japanese Vocabulary",
             "icon": "mouth.fill",
             "created": "",

@@ -29,4 +29,18 @@ public struct FlashCardDeck: Deck {
         self.lastUpdateDate = lastUpdateDate
         self.cards = cards
     }
+    
+    public static func from(deck: Deck, addingCard card: Card) -> FlashCardDeck {
+        var mutableCards = deck.cards
+        
+        mutableCards.append(card)
+        
+        let deck = FlashCardDeck(title: deck.title,
+                                 description: deck.description,
+                                 icon: deck.icon,
+                                 creationDate: deck.creationDate,
+                                 lastUpdateDate: deck.lastUpdateDate,
+                                 cards: mutableCards)
+        return deck
+    }
 }
