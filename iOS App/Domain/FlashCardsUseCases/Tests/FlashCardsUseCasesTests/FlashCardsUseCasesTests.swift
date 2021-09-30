@@ -34,6 +34,8 @@ final class FlashCardsUseCasesTests: XCTestCase {
 }
 
 struct FlashCardDeck: Deck {
+    let cards: [Card]
+    
     let title: String
     let description: String
     let icon: String
@@ -45,7 +47,7 @@ struct GetAllDecksUseCaseWithOneDeckImpl: GetAllDecksUseCase {
     var businessRules: [BusinessRule]? = nil
     
     func execute(data: Void? = nil, completion: (UseCaseResult<[Deck]>) -> Void) {
-        let deck = FlashCardDeck(title: "My Deck", description: "Some desc", icon: "", creationDate: Date(), lastUpdateDate: Date())
+        let deck = FlashCardDeck(cards: [], title: "My Deck", description: "Some desc", icon: "", creationDate: Date(), lastUpdateDate: Date())
         completion(UseCaseResult(value: [deck], code: .Success))
         
     }

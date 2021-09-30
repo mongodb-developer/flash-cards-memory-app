@@ -1,5 +1,7 @@
 import Foundation
 
+
+/// Responses from CRUD methods of Repositories return this response struct
 public struct RepositoryResponse<T> {
     public let code: Int
     public let message: String

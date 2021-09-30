@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FlashCardsUseCasesImpl
+import FlashCardsModelsImpl
 
 struct CardsView: View {
     let card: FlashCard

@@ -10,12 +10,15 @@ import FlashCardsModels
 import FlashCardsUseCases
 import FlashCardsUseCasesImpl
 import FlashCardsRepositoriesRealmImpl
+import FlashCardsUseCasesImpl
 
 public struct ContentView: View {
     
+    @State var useCaseProvider: UseCaseProvider
     @State var loggedIn: Bool = false
     
     public init() {
+        useCaseProvider = UseCaseProvider(buildMode: .MongoDBRealm)
     }
     
     public var body: some View {
@@ -42,7 +45,7 @@ public struct ContentView: View {
                 }
             }
             
-        }
+        }.environment(\.useCaseProvider, useCaseProvider)
     }    
 }
 
@@ -59,6 +62,17 @@ struct RegisterLinkView: View {
             }.padding(.trailing, 30.0)
                 
         }
+    }
+}
+
+private struct UseCaseProviderKey: EnvironmentKey {
+    static let defaultValue: UseCaseProvider = UseCaseProvider(buildMode: .HandMade)
+}
+
+extension EnvironmentValues {
+    public var useCaseProvider: UseCaseProvider {
+        get { self[UseCaseProviderKey.self] }
+        set { self[UseCaseProviderKey.self] = newValue }
     }
 }
 

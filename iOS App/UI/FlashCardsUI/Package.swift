@@ -23,7 +23,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "FlashCardsUI",
-            dependencies: ["FlashCardsUseCasesImpl", "FlashCardsRepositoriesRealmImpl"]),
+            dependencies: ["FlashCardsUseCasesImpl",
+                           "FlashCardsRepositoriesRealmImpl"
+                          ]),
         .testTarget(
             name: "FlashCardsUITests",
             dependencies: ["FlashCardsUI"]),

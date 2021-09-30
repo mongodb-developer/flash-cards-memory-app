@@ -11,9 +11,12 @@ import FlashCardsModels
 import FlashCardsUseCasesImpl
 import FlashCardsRepositoriesRealmImpl
 import FlashCardsRepositoriesImpl
+import FlashCardsModelsImpl
 
 struct DecksView: View {
     
+    @Environment(\.useCaseProvider) var useCaseProvider
+
     @Binding var loggedIn: Bool
     
     let columns = [
@@ -61,14 +64,24 @@ struct DecksView: View {
                 
                 let deck = FlashCardDeck(title: newDeckTitle, description: newDeckDescription, icon: newDeckIcon, creationDate: Date(), lastUpdateDate: Date(), cards: [])
 
-                let addDeckUseCase = AddDeckUseCaseImpl(decksRepository: DeckRepositoryRealmImpl(), deckToDeckEntityMapper: DeckToDeckRealmEntityMapper())
-
-                addDeckUseCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
-                    shouldSave = false
-                    newDeckTitle = ""
-                    newDeckDescription = ""
-                    newDeckIcon = ""
-                }
+                
+                useCaseProvider.useCaseBuilderHandMade?.buildAddDeckUseCase(completion: { addDeckUseCase in
+                    addDeckUseCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
+                        shouldSave = false
+                        newDeckTitle = ""
+                        newDeckDescription = ""
+                        newDeckIcon = ""
+                    }
+                })
+                
+                useCaseProvider.useCaseBuilderRealm?.buildAddDeckUseCase(completion: { addDeckUseCase in
+                    addDeckUseCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
+                        shouldSave = false
+                        newDeckTitle = ""
+                        newDeckDescription = ""
+                        newDeckIcon = ""
+                    }
+                })
             }
             
             refresh()
@@ -79,23 +92,28 @@ struct DecksView: View {
 extension DecksView {
     func refresh() {
         
-        // Using own DeckRepositoryImpl
-//        GetAllDecksUseCaseImpl(decksRepository: DeckRepositoryImpl()).execute { (result: UseCaseResult<[Deck]>) in
-//            deckViews = []
-//            for d in result.value {
-//                deckViews.append(DeckViewModel(title: d.title, icon: d.icon, deck: d))
-//            }
-//        }
-
-        GetAllDecksUseCaseImpl(decksRepository: DeckRepositoryRealmImpl()).execute { (result: UseCaseResult<[Deck]>) in
-            deckViews = []
-            for d in result.value {
-                deckViews.append(DeckViewModel(title: d.title, icon: d.icon, deck: d))
+        useCaseProvider.useCaseBuilderHandMade?.buildGetAllDecksUseCase(completion: { useCase in
+            useCase.execute { (result: UseCaseResult<[Deck]>) in
+                deckViews = []
+                for d in result.value {
+                    deckViews.append(DeckViewModel(title: d.title, icon: d.icon, deck: d))
+                }
             }
-        }
+        })
+        
+        useCaseProvider.useCaseBuilderRealm?.buildGetAllDecksUseCase(completion: { useCase in
+            useCase.execute { (result: UseCaseResult<[Deck]>) in
+                deckViews = []
+                for d in result.value {
+                    deckViews.append(DeckViewModel(title: d.title, icon: d.icon, deck: d))
+                }
+            }
+        })
+
     }
 }
 
+// TODO: rename ViewModels
 struct DeckViewModel: Identifiable {
     var id = UUID()
     

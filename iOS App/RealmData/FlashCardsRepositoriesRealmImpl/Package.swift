@@ -16,7 +16,8 @@ let package = Package(
         // Implementation using Realm
         .package(name: "Realm", url: "https://www.github.com/realm/realm-cocoa.git", from: "10.6.0"),
         // Protocols for the Data layer
-        .package(name: "FlashCardsRepositories", path: "../../Data/FlashCardsRepositories")
+        .package(name: "FlashCardsRepositories", path: "../../Data/FlashCardsRepositories"),
+        .package(name: "FlashCardsDataEntitiesRealmImpl", path: "../FlashCardsDataEntitiesRealmImpl")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -25,11 +26,13 @@ let package = Package(
             name: "FlashCardsRepositoriesRealmImpl",
             dependencies: [
                 "FlashCardsRepositories",
+                "FlashCardsDataEntitiesRealmImpl",
                 .product(name: "RealmSwift", package: "Realm")
             ]),
         .testTarget(
             name: "FlashCardsRepositoriesRealmImplTests",
             dependencies: [
+                "FlashCardsDataEntitiesRealmImpl", 
                 "FlashCardsRepositoriesRealmImpl",
                 .product(name: "RealmSwift", package: "Realm")
             ]),

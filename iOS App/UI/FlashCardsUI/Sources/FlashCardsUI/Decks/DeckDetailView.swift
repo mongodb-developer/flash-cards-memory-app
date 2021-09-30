@@ -10,8 +10,11 @@ import FlashCardsModels
 import FlashCardsUseCases
 import FlashCardsUseCasesImpl
 import FlashCardsRepositoriesRealmImpl
+import FlashCardsModelsImpl
 
 struct DeckDetailView: View {
+    @Environment(\.useCaseProvider) var useCaseProvider
+
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -39,8 +42,16 @@ struct DeckDetailView: View {
             Button(action: {    // Delete card
                 print("Delete button pressed...")
                 
-                DeleteDeckUseCaseImpl(decksRepository: DeckRepositoryRealmImpl()).execute(data: deck) { (result: UseCaseResult<Bool>) in
-                    print("Deleted deck")
+                useCaseProvider.useCaseBuilderHandMade?.buildDeleteDeckUseCase { useCase in
+                    useCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
+                        print("Deleted deck")
+                    }
+                }
+                
+                useCaseProvider.useCaseBuilderRealm?.buildDeleteDeckUseCase { useCase in
+                    useCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
+                        print("Deleted deck")
+                    }
                 }
             }) {
                 Text("Delete")
@@ -67,22 +78,31 @@ struct DeckDetailView: View {
             if shouldSave {
                 let card = FlashCard(title: newCardTitle, description: newCardDescription, icon: newCardIcon, creationDate: Date(), lastUpdateDate: Date())
 
-                let addCardUseCase = AddCardUseCaseImpl(deck: deck,
-                                                        decksRepository: DeckRepositoryRealmImpl(),
-                                                        deckToDeckEntityMapper: DeckToDeckRealmEntityMapper(),
-                                                        cardToCardEntityMapper: CardToCardRealmEntityMapper())
-                
-                addCardUseCase.execute(data: card) { (result: UseCaseResult<Bool>) in
-                    shouldSave = false
-                    newCardTitle = ""
-                    newCardDescription = ""
-                    newCardIcon = ""
-                    
-                    deck = FlashCardDeck.from(deck: deck, addingCard: card)
+                useCaseProvider.useCaseBuilderHandMade?.buildAddCardUseCase(deck: deck) { useCase in
+                        useCase.execute(data: card) { (result: UseCaseResult<Bool>) in
+                            shouldSave = false
+                            newCardTitle = ""
+                            newCardDescription = ""
+                            newCardIcon = ""
+                            
+                            deck = FlashCardDeck.from(deck: deck, addingCard: card)
 
-                    refresh()
+                            refresh()
+                        }
                 }
                 
+                useCaseProvider.useCaseBuilderRealm?.buildAddCardUseCase(deck: deck) { useCase in
+                        useCase.execute(data: card) { (result: UseCaseResult<Bool>) in
+                            shouldSave = false
+                            newCardTitle = ""
+                            newCardDescription = ""
+                            newCardIcon = ""
+                            
+                            deck = FlashCardDeck.from(deck: deck, addingCard: card)
+
+                            refresh()
+                        }
+                }
             }
             
             refresh()
