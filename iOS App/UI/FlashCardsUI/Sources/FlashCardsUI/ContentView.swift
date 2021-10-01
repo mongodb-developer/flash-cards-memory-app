@@ -14,11 +14,11 @@ import FlashCardsUseCasesImpl
 
 public struct ContentView: View {
     
-    @State var useCaseProvider: UseCaseProvider
+    @State var useCaseProvider: UseCaseProvider = UseCaseProvider(buildMode: .HandMade)
     @State var loggedIn: Bool = false
+    @State var dataSourceType: BuildModes = .HandMade
     
     public init() {
-        useCaseProvider = UseCaseProvider(buildMode: .MongoDBRealm)
     }
     
     public var body: some View {
@@ -27,6 +27,16 @@ public struct ContentView: View {
                 DecksView(loggedIn: $loggedIn)
             } else {
                 VStack {
+                    SelectDataSourceView(dataSourceType: $dataSourceType)
+                        .onChange(of: dataSourceType) { newValue in
+                            useCaseProvider = UseCaseProvider(buildMode: dataSourceType)
+                            let _ = self.environment(\.useCaseProvider, useCaseProvider)
+                        }
+                    
+                    Spacer()
+                        .fixedSize()
+                        .padding(.bottom, 30.0)
+                    
                     // Link to Register
                     RegisterLinkView()
                     
@@ -73,6 +83,20 @@ extension EnvironmentValues {
     public var useCaseProvider: UseCaseProvider {
         get { self[UseCaseProviderKey.self] }
         set { self[UseCaseProviderKey.self] = newValue }
+    }
+}
+
+// Radio Button menu to select Data Source
+struct SelectDataSourceView: View {
+    @Binding var dataSourceType: BuildModes
+    
+    var body: some View {
+        Picker(selection: $dataSourceType, label: Text("Data Source:")) {
+            Text("Hand Made").tag(BuildModes.HandMade)
+            Text("Local Realm DB").tag(BuildModes.Realm)
+            Text("Cloud MongoDB Realm").tag(BuildModes.MongoDBRealm)
+        }
+        .pickerStyle(.segmented)
     }
 }
 
