@@ -13,21 +13,16 @@ let package = Package(
             targets: ["FlashCardsRealmMappersImpl"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-//        .package(name: "FlashCardsMappers", path: "../../Domain/FlashCardsMappers"),
         .package(name: "FlashCardsModelsImpl", path: "../FlashCardsModelsImpl"),
         .package(name: "FlashCardsDataEntitiesRealmImpl", path: "../../RealmData/FlashCardsDataEntitiesRealmImpl")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "FlashCardsRealmMappersImpl",
             dependencies: [
-//                "FlashCardsMappers",
                 "FlashCardsModelsImpl",
                 "FlashCardsDataEntitiesRealmImpl"
-                          ]),
+            ]),
         .testTarget(
             name: "FlashCardsRealmMappersImplTests",
             dependencies: ["FlashCardsRealmMappersImpl"]),
