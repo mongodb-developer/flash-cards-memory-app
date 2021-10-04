@@ -15,30 +15,32 @@ import FlashCardsMappersImpl
 import FlashCardsRepositoriesRealmImpl
 import FlashCardsRealmMappersImpl
 
-public enum BuildModes {
-    case HandMade
-    case Realm
-    case MongoDBRealm
+
+/// Different data storage modes in our app
+public enum DataStorageMode {
+    case HandMade       // Doing everything manually: threading, caching, networking, JSON mapping, etc.
+    case Realm          // Using a local Realm DB
+    case MongoDBRealm   // Using a MongoDB Realm synced DB
 }
 
-public class UseCaseProvider {
-    public static var shared = UseCaseProvider(buildMode: .HandMade)
+/// Returns a specialized Use Case Factory for each different ``BuildModes``
+public class UseCaseFactoryProvider {
+    public static var shared = UseCaseFactoryProvider(buildMode: .HandMade)
     
-    var useCaseBuilderHandMade: UseCaseBuilder<GetAllDecksUseCaseImpl<DeckRepositoryImpl, DeckEntityToDeckMapperImpl>,
+    var useCaseFactoryHandMade: UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryImpl, DeckEntityToDeckMapperImpl>,
                                                    AddDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
                                                    DeleteDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
                                                    AddCardUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl, FlashCardToCardEntityMapperImpl>>?
     
-    var useCaseBuilderRealm   : UseCaseBuilder<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
+    var useCaseFactoryRealm   : UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
                                                    AddDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                    DeleteDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                    AddCardUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>?
     
-    public init(buildMode: BuildModes) {
+    public init(buildMode: DataStorageMode) {
         switch buildMode {
         case .HandMade:
-            
-            useCaseBuilderHandMade = UseCaseBuilder<GetAllDecksUseCaseImpl<DeckRepositoryImpl, DeckEntityToDeckMapperImpl>,
+            useCaseFactoryHandMade = UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryImpl, DeckEntityToDeckMapperImpl>,
                             AddDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
                             DeleteDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
                             AddCardUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl, FlashCardToCardEntityMapperImpl>>(buildMode: .HandMade)
@@ -46,7 +48,7 @@ public class UseCaseProvider {
         case .Realm:
             // Using a Local Realm (a file)
             FlashCardsRealm.realm = FlashCardsRealm.initLocalRealm()
-            useCaseBuilderRealm = UseCaseBuilder<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
+            useCaseFactoryRealm = UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
                                                            AddDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                            DeleteDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                  AddCardUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>(buildMode: .Realm)
@@ -55,7 +57,7 @@ public class UseCaseProvider {
             FlashCardsRealm.initMongoDBRealm {
                 print("Init MongoDB Realm")
                 
-                self.useCaseBuilderRealm = UseCaseBuilder<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
+                self.useCaseFactoryRealm = UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
                                                                AddDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                                DeleteDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                      AddCardUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>(buildMode: .MongoDBRealm)
@@ -64,14 +66,18 @@ public class UseCaseProvider {
     }
 }
 
-public struct UseCaseBuilder<GetAllDecksUseCaseType: GetAllDecksUseCase,
+
+/// We create new use cases using this Factory
+public struct UseCaseFactory<GetAllDecksUseCaseType: GetAllDecksUseCase,
                       AddDeckUseCaseType: AddDeckUseCase,
                       DeleteDeckUseCaseType: DeleteDeckUseCase,
                       AddCardUseCaseType: AddCardUseCase
 > {
-        
-    let buildMode: BuildModes
+    let buildMode: DataStorageMode
    
+    
+    /// Creates and return a ``GetAllDecksUseCaseType``, to list our Decks
+    /// - Parameter completion: closure to return the use case
     public func buildGetAllDecksUseCase(completion: (GetAllDecksUseCaseType) -> Void) {
         switch buildMode {
         case .HandMade:

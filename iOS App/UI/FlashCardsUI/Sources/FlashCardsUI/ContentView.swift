@@ -14,9 +14,9 @@ import FlashCardsUseCasesImpl
 
 public struct ContentView: View {
     
-    @State var useCaseProvider: UseCaseProvider = UseCaseProvider(buildMode: .HandMade)
+    @State var useCaseProvider: UseCaseFactoryProvider = UseCaseFactoryProvider(buildMode: .HandMade)
     @State var loggedIn: Bool = false
-    @State var dataSourceType: BuildModes = .HandMade
+    @State var dataSourceType: DataStorageMode = .HandMade
     
     public init() {
     }
@@ -29,7 +29,7 @@ public struct ContentView: View {
                 VStack {
                     SelectDataSourceView(dataSourceType: $dataSourceType)
                         .onChange(of: dataSourceType) { newValue in
-                            useCaseProvider = UseCaseProvider(buildMode: dataSourceType)
+                            useCaseProvider = UseCaseFactoryProvider(buildMode: dataSourceType)
                             let _ = self.environment(\.useCaseProvider, useCaseProvider)
                         }
                     
@@ -76,11 +76,11 @@ struct RegisterLinkView: View {
 }
 
 private struct UseCaseProviderKey: EnvironmentKey {
-    static let defaultValue: UseCaseProvider = UseCaseProvider(buildMode: .HandMade)
+    static let defaultValue: UseCaseFactoryProvider = UseCaseFactoryProvider(buildMode: .HandMade)
 }
 
 extension EnvironmentValues {
-    public var useCaseProvider: UseCaseProvider {
+    public var useCaseProvider: UseCaseFactoryProvider {
         get { self[UseCaseProviderKey.self] }
         set { self[UseCaseProviderKey.self] = newValue }
     }
@@ -88,13 +88,13 @@ extension EnvironmentValues {
 
 // Radio Button menu to select Data Source
 struct SelectDataSourceView: View {
-    @Binding var dataSourceType: BuildModes
+    @Binding var dataSourceType: DataStorageMode
     
     var body: some View {
         Picker(selection: $dataSourceType, label: Text("Data Source:")) {
-            Text("Hand Made").tag(BuildModes.HandMade)
-            Text("Local Realm DB").tag(BuildModes.Realm)
-            Text("Cloud MongoDB Realm").tag(BuildModes.MongoDBRealm)
+            Text("Hand Made").tag(DataStorageMode.HandMade)
+            Text("Local Realm DB").tag(DataStorageMode.Realm)
+            Text("Cloud MongoDB Realm").tag(DataStorageMode.MongoDBRealm)
         }
         .pickerStyle(.segmented)
     }

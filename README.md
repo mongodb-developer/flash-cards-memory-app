@@ -56,8 +56,8 @@ With the Fake, hand made repository we're using a Fake API server that always re
 You can check these files in the `Server` folder.
 
 ## Android App
-To be done
 
+You can find the Android version of this sample app [in the Android FlashCards App repo](https://github.com/mongodb-developer/FlashCardsAndroid)
 
 ## Resources
 
