@@ -10,6 +10,7 @@ import Foundation
 import FlashCardsRepositories
 import FlashCardsDataEntities
 import FlashCardsDataEntitiesRealmImpl
+import FlashCardsRealmInit
 
 import RealmSwift
 

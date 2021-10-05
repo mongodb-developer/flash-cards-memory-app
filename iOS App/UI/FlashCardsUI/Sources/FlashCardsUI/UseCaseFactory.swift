@@ -14,7 +14,7 @@ import FlashCardsRepositoriesImpl
 import FlashCardsMappersImpl
 import FlashCardsRepositoriesRealmImpl
 import FlashCardsRealmMappersImpl
-
+import FlashCardsRealmInit
 
 /// Different data storage modes in our app
 public enum DataStorageMode {
@@ -74,7 +74,6 @@ public struct UseCaseFactory<GetAllDecksUseCaseType: GetAllDecksUseCase,
                       AddCardUseCaseType: AddCardUseCase
 > {
     let buildMode: DataStorageMode
-   
     
     /// Creates and return a ``GetAllDecksUseCaseType``, to list our Decks
     /// - Parameter completion: closure to return the use case

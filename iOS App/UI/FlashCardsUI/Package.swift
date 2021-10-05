@@ -16,6 +16,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(name: "FlashCardsUseCasesImpl", path: "../../FlashCardsDomain/FlashCardsUseCasesImpl"),
         .package(name: "FlashCardsRepositoriesRealmImpl", path: "../../RealmData/FlashCardsRepositoriesRealmImpl"),
+        .package(name: "FlashCardsRealmInit", path: "../../RealmData/FlashCardsRealmInit"),
         .package(name: "FlashCardsModelsImpl", path: "../../FlashCardsDomain/FlashCardsModelsImpl")
 
     ],
@@ -26,6 +27,7 @@ let package = Package(
             name: "FlashCardsUI",
             dependencies: ["FlashCardsUseCasesImpl",
                            "FlashCardsRepositoriesRealmImpl",
+                           "FlashCardsRealmInit",
                            "FlashCardsModelsImpl"
                           ]),
         .testTarget(

@@ -4,38 +4,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "FlashCardsRepositoriesRealmImpl",
+    name: "FlashCardsRealmInit",
     platforms: [.iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "FlashCardsRepositoriesRealmImpl",
-            targets: ["FlashCardsRepositoriesRealmImpl"]),
+            name: "FlashCardsRealmInit",
+            targets: ["FlashCardsRealmInit"]),
     ],
     dependencies: [
-        // Implementation using Realm
+        // Dependencies declare other packages that this package depends on.
         .package(name: "Realm", url: "https://www.github.com/realm/realm-cocoa.git", from: "10.6.0"),
-        // Protocols for the Data layer
-        .package(name: "FlashCardsRepositories", path: "../../Data/FlashCardsRepositories"),
-        .package(name: "FlashCardsRealmInit", path: "../FlashCardsRealmInit"),
-        .package(name: "FlashCardsDataEntitiesRealmImpl", path: "../FlashCardsDataEntitiesRealmImpl")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "FlashCardsRepositoriesRealmImpl",
+            name: "FlashCardsRealmInit",
             dependencies: [
-                "FlashCardsRepositories",
-                "FlashCardsDataEntitiesRealmImpl",
-                "FlashCardsRealmInit",
                 .product(name: "RealmSwift", package: "Realm")
             ]),
         .testTarget(
-            name: "FlashCardsRepositoriesRealmImplTests",
+            name: "FlashCardsRealmInitTests",
             dependencies: [
-                "FlashCardsDataEntitiesRealmImpl", 
-                "FlashCardsRepositoriesRealmImpl",
                 "FlashCardsRealmInit",
                 .product(name: "RealmSwift", package: "Realm")
             ]),

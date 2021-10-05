@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9914036E2704C13900BC022F /* FlashCardsMappersImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 9914036D2704C13900BC022F /* FlashCardsMappersImpl */; };
-		991403702704C13C00BC022F /* FlashCardsRepositoriesImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 9914036F2704C13C00BC022F /* FlashCardsRepositoriesImpl */; };
-		991403742704C1F100BC022F /* FlashCardsRepositoriesRealmImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 991403732704C1F100BC022F /* FlashCardsRepositoriesRealmImpl */; };
-		9922CFB126E63BEF005F27D6 /* FlashCardsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9922CFB026E63BEF005F27D6 /* FlashCardsUI */; };
-		9922CFB326E63BF8005F27D6 /* FlashCardsUseCasesImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 9922CFB226E63BF8005F27D6 /* FlashCardsUseCasesImpl */; };
 		99690D5E26D4E50D006EF0E5 /* FlashCardsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99690D5D26D4E50D006EF0E5 /* FlashCardsApp.swift */; };
 		99690D6226D4E510006EF0E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99690D6126D4E510006EF0E5 /* Assets.xcassets */; };
 		99690D6526D4E510006EF0E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99690D6426D4E510006EF0E5 /* Preview Assets.xcassets */; };
-		99AFCE302705B8D500B5CA41 /* FlashCardsRealmMappersImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 99AFCE2F2705B8D500B5CA41 /* FlashCardsRealmMappersImpl */; };
+		99C2E395270CB54500F27C2C /* FlashCardsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 99C2E394270CB54500F27C2C /* FlashCardsUI */; };
+		99C2E397270CB54900F27C2C /* FlashCardsUseCasesImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 99C2E396270CB54900F27C2C /* FlashCardsUseCasesImpl */; };
+		99C2E399270CB54D00F27C2C /* FlashCardsRepositoriesImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 99C2E398270CB54D00F27C2C /* FlashCardsRepositoriesImpl */; };
+		99C2E39B270CB54F00F27C2C /* FlashCardsMappersImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 99C2E39A270CB54F00F27C2C /* FlashCardsMappersImpl */; };
+		99C2E39D270CB55300F27C2C /* FlashCardsRealmMappersImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 99C2E39C270CB55300F27C2C /* FlashCardsRealmMappersImpl */; };
+		99C2E39F270CB55C00F27C2C /* FlashCardsRepositoriesRealmImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 99C2E39E270CB55C00F27C2C /* FlashCardsRepositoriesRealmImpl */; };
 		99CB873A26F1DF9E0021AD73 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99CB873926F1DF9E0021AD73 /* README.md */; };
 /* End PBXBuildFile section */
 
@@ -38,12 +38,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9922CFB126E63BEF005F27D6 /* FlashCardsUI in Frameworks */,
-				9914036E2704C13900BC022F /* FlashCardsMappersImpl in Frameworks */,
-				9922CFB326E63BF8005F27D6 /* FlashCardsUseCasesImpl in Frameworks */,
-				991403742704C1F100BC022F /* FlashCardsRepositoriesRealmImpl in Frameworks */,
-				99AFCE302705B8D500B5CA41 /* FlashCardsRealmMappersImpl in Frameworks */,
-				991403702704C13C00BC022F /* FlashCardsRepositoriesImpl in Frameworks */,
+				99C2E39D270CB55300F27C2C /* FlashCardsRealmMappersImpl in Frameworks */,
+				99C2E39F270CB55C00F27C2C /* FlashCardsRepositoriesRealmImpl in Frameworks */,
+				99C2E395270CB54500F27C2C /* FlashCardsUI in Frameworks */,
+				99C2E399270CB54D00F27C2C /* FlashCardsRepositoriesImpl in Frameworks */,
+				99C2E39B270CB54F00F27C2C /* FlashCardsMappersImpl in Frameworks */,
+				99C2E397270CB54900F27C2C /* FlashCardsUseCasesImpl in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,12 +124,12 @@
 			);
 			name = FlashCards;
 			packageProductDependencies = (
-				9922CFB026E63BEF005F27D6 /* FlashCardsUI */,
-				9922CFB226E63BF8005F27D6 /* FlashCardsUseCasesImpl */,
-				9914036D2704C13900BC022F /* FlashCardsMappersImpl */,
-				9914036F2704C13C00BC022F /* FlashCardsRepositoriesImpl */,
-				991403732704C1F100BC022F /* FlashCardsRepositoriesRealmImpl */,
-				99AFCE2F2705B8D500B5CA41 /* FlashCardsRealmMappersImpl */,
+				99C2E394270CB54500F27C2C /* FlashCardsUI */,
+				99C2E396270CB54900F27C2C /* FlashCardsUseCasesImpl */,
+				99C2E398270CB54D00F27C2C /* FlashCardsRepositoriesImpl */,
+				99C2E39A270CB54F00F27C2C /* FlashCardsMappersImpl */,
+				99C2E39C270CB55300F27C2C /* FlashCardsRealmMappersImpl */,
+				99C2E39E270CB55C00F27C2C /* FlashCardsRepositoriesRealmImpl */,
 			);
 			productName = FlashCards;
 			productReference = 99690D5A26D4E50D006EF0E5 /* FlashCards.app */;
@@ -395,29 +395,29 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9914036D2704C13900BC022F /* FlashCardsMappersImpl */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FlashCardsMappersImpl;
-		};
-		9914036F2704C13C00BC022F /* FlashCardsRepositoriesImpl */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FlashCardsRepositoriesImpl;
-		};
-		991403732704C1F100BC022F /* FlashCardsRepositoriesRealmImpl */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FlashCardsRepositoriesRealmImpl;
-		};
-		9922CFB026E63BEF005F27D6 /* FlashCardsUI */ = {
+		99C2E394270CB54500F27C2C /* FlashCardsUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FlashCardsUI;
 		};
-		9922CFB226E63BF8005F27D6 /* FlashCardsUseCasesImpl */ = {
+		99C2E396270CB54900F27C2C /* FlashCardsUseCasesImpl */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FlashCardsUseCasesImpl;
 		};
-		99AFCE2F2705B8D500B5CA41 /* FlashCardsRealmMappersImpl */ = {
+		99C2E398270CB54D00F27C2C /* FlashCardsRepositoriesImpl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlashCardsRepositoriesImpl;
+		};
+		99C2E39A270CB54F00F27C2C /* FlashCardsMappersImpl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlashCardsMappersImpl;
+		};
+		99C2E39C270CB55300F27C2C /* FlashCardsRealmMappersImpl */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FlashCardsRealmMappersImpl;
+		};
+		99C2E39E270CB55C00F27C2C /* FlashCardsRepositoriesRealmImpl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlashCardsRepositoriesRealmImpl;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

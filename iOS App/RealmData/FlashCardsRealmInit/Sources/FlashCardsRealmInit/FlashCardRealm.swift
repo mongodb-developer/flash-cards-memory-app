@@ -6,9 +6,6 @@
 //
 
 import Foundation
-import FlashCardsRepositories
-import FlashCardsDataEntities
-
 import RealmSwift
 
 /// Initializes Realm
@@ -19,6 +16,7 @@ public struct FlashCardsRealm {
     /// Inits a local Realm to save, read, etc. Decks and Cards
     /// - Returns: An initialized local Realm or nil if something bad happens
     public static func initLocalRealm() -> Realm? {
+        
         do {
             let fileUrl = Realm.Configuration().fileURL?.deletingLastPathComponent()
                     .appendingPathComponent("FlashCards.realm")

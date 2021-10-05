@@ -2,7 +2,7 @@ import Foundation
 import FlashCardsRepositories
 import FlashCardsDataEntities
 import FlashCardsDataEntitiesRealmImpl
-
+import FlashCardsRealmInit
 import RealmSwift
 
 public struct DeckRepositoryRealmImpl: DeckRepository {
@@ -74,7 +74,7 @@ public struct DeckRepositoryRealmImpl: DeckRepository {
             completion(RepositoryResponse<Bool>(code: 0, message: "Error in preconditions", data: false))
             return
         }
-
+        
         do {
            try realm.write {
                realm.delete(entity)
@@ -138,29 +138,4 @@ public struct DeckRepositoryRealmImpl: DeckRepository {
         
         completion(response)
     }
-    
-//    public func addCard(_ card: CardEntityType, deck: DeckEntityRealmImpl, completion: @escaping (RepositoryResponse<Bool>) -> Void) {
-//        guard let realm = DeckRepositoryRealmImpl.realm else {
-//            completion(RepositoryResponse<Bool>(code: 0, message: "Error in preconditions", data: false))
-//            return
-//        }
-//        
-//        findDeck(deck) { (response: RepositoryResponse<DeckEntityRealmImpl?>) in
-//            if let foundDeck = response.data {
-//                
-//                do {
-//                    try realm.write {
-//                        foundDeck.addCard(CardEntityRealmImpl(cardEntity: card))
-//
-//                        completion(RepositoryResponse<Bool>(code: 200, message: "Add Card OK", data: true))
-//                    }
-//                } catch {
-//                    completion(RepositoryResponse<Bool>(code: 0, message: "Error adding: \(error)", data: false))
-//                }
-//                
-//            } else {
-//                completion(RepositoryResponse<Bool>(code: 0, message: "Error adding: not found", data: false))
-//            }
-//        }
-//    }
 }
