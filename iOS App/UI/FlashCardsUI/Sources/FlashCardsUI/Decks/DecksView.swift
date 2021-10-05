@@ -15,7 +15,7 @@ import FlashCardsModelsImpl
 
 struct DecksView: View {
     
-    @Environment(\.useCaseProvider) var useCaseProvider
+    @Environment(\.useCaseFactory) var useCaseFactory
 
     @Binding var loggedIn: Bool
     
@@ -65,7 +65,7 @@ struct DecksView: View {
                 let deck = FlashCardDeck(title: newDeckTitle, description: newDeckDescription, icon: newDeckIcon, creationDate: Date(), lastUpdateDate: Date(), cards: [])
 
                 
-                useCaseProvider.useCaseBuilderHandMade?.buildAddDeckUseCase(completion: { addDeckUseCase in
+                useCaseFactory.useCaseFactoryHandMade?.buildAddDeckUseCase(completion: { addDeckUseCase in
                     addDeckUseCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
                         shouldSave = false
                         newDeckTitle = ""
@@ -74,7 +74,7 @@ struct DecksView: View {
                     }
                 })
                 
-                useCaseProvider.useCaseBuilderRealm?.buildAddDeckUseCase(completion: { addDeckUseCase in
+                useCaseFactory.useCaseFactoryRealm?.buildAddDeckUseCase(completion: { addDeckUseCase in
                     addDeckUseCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
                         shouldSave = false
                         newDeckTitle = ""
@@ -92,7 +92,7 @@ struct DecksView: View {
 extension DecksView {
     func refresh() {
         
-        useCaseProvider.useCaseBuilderHandMade?.buildGetAllDecksUseCase(completion: { useCase in
+        useCaseFactory.useCaseFactoryHandMade?.buildGetAllDecksUseCase(completion: { useCase in
             useCase.execute { (result: UseCaseResult<[Deck]>) in
                 deckViews = []
                 for d in result.value {
@@ -101,7 +101,7 @@ extension DecksView {
             }
         })
         
-        useCaseProvider.useCaseBuilderRealm?.buildGetAllDecksUseCase(completion: { useCase in
+        useCaseFactory.useCaseFactoryRealm?.buildGetAllDecksUseCase(completion: { useCase in
             useCase.execute { (result: UseCaseResult<[Deck]>) in
                 deckViews = []
                 for d in result.value {

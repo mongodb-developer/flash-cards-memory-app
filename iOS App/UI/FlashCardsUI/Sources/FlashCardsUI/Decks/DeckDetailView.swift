@@ -13,7 +13,7 @@ import FlashCardsRepositoriesRealmImpl
 import FlashCardsModelsImpl
 
 struct DeckDetailView: View {
-    @Environment(\.useCaseProvider) var useCaseProvider
+    @Environment(\.useCaseFactory) var useCaseFactory
 
     let columns = [
         GridItem(.flexible()),
@@ -42,13 +42,13 @@ struct DeckDetailView: View {
             Button(action: {    // Delete card
                 print("Delete button pressed...")
                 
-                useCaseProvider.useCaseBuilderHandMade?.buildDeleteDeckUseCase { useCase in
+                useCaseFactory.useCaseFactoryHandMade?.buildDeleteDeckUseCase { useCase in
                     useCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
                         print("Deleted deck")
                     }
                 }
                 
-                useCaseProvider.useCaseBuilderRealm?.buildDeleteDeckUseCase { useCase in
+                useCaseFactory.useCaseFactoryRealm?.buildDeleteDeckUseCase { useCase in
                     useCase.execute(data: deck) { (result: UseCaseResult<Bool>) in
                         print("Deleted deck")
                     }
@@ -78,7 +78,7 @@ struct DeckDetailView: View {
             if shouldSave {
                 let card = FlashCard(title: newCardTitle, description: newCardDescription, icon: newCardIcon, creationDate: Date(), lastUpdateDate: Date())
 
-                useCaseProvider.useCaseBuilderHandMade?.buildAddCardUseCase(deck: deck) { useCase in
+                useCaseFactory.useCaseFactoryHandMade?.buildAddCardUseCase(deck: deck) { useCase in
                         useCase.execute(data: card) { (result: UseCaseResult<Bool>) in
                             shouldSave = false
                             newCardTitle = ""
@@ -91,7 +91,7 @@ struct DeckDetailView: View {
                         }
                 }
                 
-                useCaseProvider.useCaseBuilderRealm?.buildAddCardUseCase(deck: deck) { useCase in
+                useCaseFactory.useCaseFactoryRealm?.buildAddCardUseCase(deck: deck) { useCase in
                         useCase.execute(data: card) { (result: UseCaseResult<Bool>) in
                             shouldSave = false
                             newCardTitle = ""

@@ -11,23 +11,30 @@ import FlashCardsDataEntities
 
 import RealmSwift
 
-
 /// Initializes Realm
 public struct FlashCardsRealm {
     public static var realm: Realm?
 
+    
+    /// Inits a local Realm to save, read, etc. Decks and Cards
+    /// - Returns: An initialized local Realm or nil if something bad happens
     public static func initLocalRealm() -> Realm? {
         do {
-            let fileUrl = Realm.Configuration().fileURL!.deletingLastPathComponent()
+            let fileUrl = Realm.Configuration().fileURL?.deletingLastPathComponent()
                     .appendingPathComponent("FlashCards.realm")
             
+            // Realm Configuration for this local Realm
             let configuration = Realm.Configuration(fileURL: fileUrl,
-                                                    syncConfiguration: nil, encryptionKey: nil,
-                                                    readOnly: false, schemaVersion: 1,
+                                                    syncConfiguration: nil,
+                                                    encryptionKey: nil,
+                                                    readOnly: false,
+                                                    schemaVersion: 1,
                                                     migrationBlock: nil,
                                                     deleteRealmIfMigrationNeeded: true,
-                                                    shouldCompactOnLaunch: nil, objectTypes: nil)
+                                                    shouldCompactOnLaunch: nil,
+                                                    objectTypes: nil)
             let realm = try Realm(configuration: configuration, queue: .main)
+            FlashCardsRealm.realm = realm
             return realm
         } catch {
             print("Something bad happened: \(error)")
@@ -64,7 +71,7 @@ public struct FlashCardsRealm {
                             completion()
                         case .success(let mongoDBRealm):
                             // Realm opened
-                            realm = mongoDBRealm
+                            FlashCardsRealm.realm = mongoDBRealm
                             completion()
                         }
                     }

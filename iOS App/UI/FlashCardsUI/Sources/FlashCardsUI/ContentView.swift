@@ -14,7 +14,7 @@ import FlashCardsUseCasesImpl
 
 public struct ContentView: View {
     
-    @State var useCaseProvider: UseCaseFactoryProvider = UseCaseFactoryProvider(buildMode: .HandMade)
+    @State var useCaseFactory: UseCaseFactoryProvider = UseCaseFactoryProvider(buildMode: .HandMade)
     @State var loggedIn: Bool = false
     @State var dataSourceType: DataStorageMode = .HandMade
     
@@ -29,8 +29,8 @@ public struct ContentView: View {
                 VStack {
                     SelectDataSourceView(dataSourceType: $dataSourceType)
                         .onChange(of: dataSourceType) { newValue in
-                            useCaseProvider = UseCaseFactoryProvider(buildMode: dataSourceType)
-                            let _ = self.environment(\.useCaseProvider, useCaseProvider)
+                            useCaseFactory = UseCaseFactoryProvider(buildMode: dataSourceType)
+                            let _ = self.environment(\.useCaseFactory, useCaseFactory)
                         }
                     
                     Spacer()
@@ -55,7 +55,7 @@ public struct ContentView: View {
                 }
             }
             
-        }.environment(\.useCaseProvider, useCaseProvider)
+        }.environment(\.useCaseFactory, useCaseFactory)
     }    
 }
 
@@ -75,12 +75,13 @@ struct RegisterLinkView: View {
     }
 }
 
+// We define a new Environent key here
 private struct UseCaseProviderKey: EnvironmentKey {
     static let defaultValue: UseCaseFactoryProvider = UseCaseFactoryProvider(buildMode: .HandMade)
 }
 
 extension EnvironmentValues {
-    public var useCaseProvider: UseCaseFactoryProvider {
+    public var useCaseFactory: UseCaseFactoryProvider {
         get { self[UseCaseProviderKey.self] }
         set { self[UseCaseProviderKey.self] = newValue }
     }
