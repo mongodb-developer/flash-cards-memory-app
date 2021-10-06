@@ -16,6 +16,9 @@ public struct FlashCardsRealm {
     /// Inits a local Realm to save, read, etc. Decks and Cards
     /// - Returns: An initialized local Realm or nil if something bad happens
     public static func initLocalRealm() -> Realm? {
+        if let _ = FlashCardsRealm.realm {
+            FlashCardsRealm.realm = nil
+        }
         
         do {
             let fileUrl = Realm.Configuration().fileURL?.deletingLastPathComponent()
@@ -41,7 +44,10 @@ public struct FlashCardsRealm {
     }
     
     public static func initMongoDBRealm(completion: @escaping () -> Void) -> Void {
-       
+        if let _ = FlashCardsRealm.realm {
+            FlashCardsRealm.realm = nil
+        }
+        
         let app = App(id: "flashcards-spblk")
         
         // Log in anonymously.

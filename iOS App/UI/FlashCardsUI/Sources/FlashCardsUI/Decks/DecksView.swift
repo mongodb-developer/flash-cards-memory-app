@@ -52,7 +52,7 @@ struct DecksView: View {
         .navigationBarItems(leading:
             Button(action: {
                 loggedIn = false
-
+                
                 print("Logout button pressed...")
             }) {
                 Text("Logout")

@@ -30,12 +30,12 @@ public class UseCaseFactoryProvider {
     var useCaseFactoryHandMade: UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryImpl, DeckEntityToDeckMapperImpl>,
                                                    AddDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
                                                    DeleteDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
-                                                   AddCardUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl, FlashCardToCardEntityMapperImpl>>?
+                                                   AddCardUseCaseImpl<CardRepositoryImpl, DeckToDeckEntityMapperImpl, FlashCardToCardEntityMapperImpl>>?
     
     var useCaseFactoryRealm   : UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
                                                    AddDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                    DeleteDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
-                                                   AddCardUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>?
+                                                   AddCardUseCaseImpl<CardRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>?
     
     public init(buildMode: DataStorageMode) {
         switch buildMode {
@@ -43,7 +43,7 @@ public class UseCaseFactoryProvider {
             useCaseFactoryHandMade = UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryImpl, DeckEntityToDeckMapperImpl>,
                             AddDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
                             DeleteDeckUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl>,
-                            AddCardUseCaseImpl<DeckRepositoryImpl, DeckToDeckEntityMapperImpl, FlashCardToCardEntityMapperImpl>>(buildMode: .HandMade)
+                            AddCardUseCaseImpl<CardRepositoryImpl, DeckToDeckEntityMapperImpl, FlashCardToCardEntityMapperImpl>>(buildMode: .HandMade)
             break
         case .Realm:
             // Using a Local Realm (a file)
@@ -51,7 +51,7 @@ public class UseCaseFactoryProvider {
             useCaseFactoryRealm = UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
                                                            AddDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                            DeleteDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
-                                                 AddCardUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>(buildMode: .Realm)
+                                                 AddCardUseCaseImpl<CardRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>(buildMode: .Realm)
         case .MongoDBRealm:
             // Using Realm Sync (use this OR local Realm, not both)
             FlashCardsRealm.initMongoDBRealm {
@@ -60,7 +60,7 @@ public class UseCaseFactoryProvider {
                 self.useCaseFactoryRealm = UseCaseFactory<GetAllDecksUseCaseImpl<DeckRepositoryRealmImpl, DeckRealmEntityToDeckMapper>,
                                                                AddDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
                                                                DeleteDeckUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper>,
-                                                     AddCardUseCaseImpl<DeckRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>(buildMode: .MongoDBRealm)
+                                                     AddCardUseCaseImpl<CardRepositoryRealmImpl, DeckToDeckRealmEntityMapper, CardToCardRealmEntityMapper>>(buildMode: .MongoDBRealm)
             }
         }
     }
@@ -122,11 +122,17 @@ public struct UseCaseFactory<GetAllDecksUseCaseType: GetAllDecksUseCase,
     public func buildAddCardUseCase(deck: Deck, completion: (AddCardUseCaseType) -> Void) {
         switch buildMode {
         case .HandMade:
-            let useCase = AddCardUseCaseImpl(deck: deck, decksRepository: DeckRepositoryImpl(), deckToDeckEntityMapper: DeckToDeckEntityMapperImpl(), cardToCardEntityMapper: FlashCardToCardEntityMapperImpl())
+            let useCase = AddCardUseCaseImpl(deck: deck,
+                                             cardsRepository: CardRepositoryImpl(deck: DeckToDeckEntityMapperImpl().map(deck as! DeckToDeckEntityMapperImpl.InType)),
+                                             deckToDeckEntityMapper: DeckToDeckEntityMapperImpl(),
+                                             cardToCardEntityMapper: FlashCardToCardEntityMapperImpl())
             completion(useCase as! AddCardUseCaseType)
         case .Realm, .MongoDBRealm:
             
-            let useCase = AddCardUseCaseImpl(deck: deck, decksRepository: DeckRepositoryRealmImpl(), deckToDeckEntityMapper: DeckToDeckRealmEntityMapper(), cardToCardEntityMapper: CardToCardRealmEntityMapper())
+            let useCase = AddCardUseCaseImpl(deck: deck,
+                                             cardsRepository: CardRepositoryRealmImpl(deck: DeckToDeckRealmEntityMapper().map(deck as! DeckToDeckRealmEntityMapper.InType)),
+                                             deckToDeckEntityMapper: DeckToDeckRealmEntityMapper(),
+                                             cardToCardEntityMapper: CardToCardRealmEntityMapper())
             completion(useCase as! AddCardUseCaseType)
         }
     }

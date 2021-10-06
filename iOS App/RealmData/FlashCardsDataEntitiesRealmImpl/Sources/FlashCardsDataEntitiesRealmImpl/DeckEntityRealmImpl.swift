@@ -85,6 +85,12 @@ public class DeckEntityRealmImpl: Object, DeckEntity {
     }
     
     public func addCard(_ card: CardEntityRealmImpl) {
-        realmCards.append(card)
+        do {
+            try realm?.write {
+                realmCards.append(card)
+            }
+        } catch {
+            print("Error adding card")
+        }
     }
 }
